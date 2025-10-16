@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Set up axios defaults
-  const API_URL = process.env.REACT_APP_API_URL?.trim() || 'http://localhost:5000/api';
+  const API_URL = process.env.REACT_APP_API_URL?.trim() || 'http://localhost:5000';
   console.log("Connecting to backend:", API_URL);
   axios.defaults.baseURL = API_URL;
 
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/auth/login', { email, password });
+      const response = await axios.post('/api/auth/login', { email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (username, email, password) => {
     try {
-      const response = await axios.post('/auth/signup', { username, email, password });
+      const response = await axios.post('/api/auth/signup', { username, email, password });
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);

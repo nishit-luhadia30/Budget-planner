@@ -3,8 +3,11 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
 
-// Generate JWT token
+// ✅ Generate JWT token safely
 const generateToken = (userId) => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET is missing in environment variables');
+  }
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '7d' });
 };
 
@@ -17,22 +20,19 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Check if user already exists
-    const existingUser = await User.findOne({
-      $or: [{ email }, { username }]
-    });
-
+    // Check for existing user
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
-      return res.status(400).json({
-        message: 'User with this email or username already exists'
-      });
+      return res
+        .status(400)
+        .json({ message: 'User with this email or username already exists' });
     }
 
-    // Create new user (password auto-hashed by pre-save hook)
+    // Create and save new user (password auto-hashed in pre-save)
     const user = new User({ username, email, password });
     await user.save();
 
-    // Generate JWT token
+    // Generate token
     const token = generateToken(user._id);
 
     res.status(201).json({
@@ -41,12 +41,14 @@ router.post('/signup', async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (error) {
     console.error('Signup error:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Server error during signup', error: error.message });
   }
 });
 
@@ -59,19 +61,16 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    // Find user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // Generate JWT token
     const token = generateToken(user._id);
 
     res.json({
@@ -80,12 +79,14 @@ router.post('/login', async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
-      }
+        email: user.email,
+      },
     });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    res
+      .status(500)
+      .json({ message: 'Server error during login', error: error.message });
   }
 });
 
