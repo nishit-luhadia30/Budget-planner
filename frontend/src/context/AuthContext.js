@@ -49,7 +49,9 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (username, email, password) => {
     try {
+      console.log("Signup payload:", { username, email, password });
       const response = await axios.post('/api/auth/signup', { username, email, password });
+
       const { token, user } = response.data;
       
       localStorage.setItem('token', token);
@@ -57,7 +59,9 @@ export const AuthProvider = ({ children }) => {
       setUser(user);
       
       return { success: true };
-    } catch (error) {
+    } 
+    catch (error) {
+      console.error("Signup error:", error.response?.data);
       return { 
         success: false, 
         message: error.response?.data?.message || 'Signup failed' 
