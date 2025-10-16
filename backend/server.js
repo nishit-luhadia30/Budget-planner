@@ -10,23 +10,17 @@ const expenseRoutes = require('./routes/expense');
 const app = express();
 
 // Middleware
+
 const allowedOrigins = [
-  'http://localhost:3000', // for local dev
-  'https://budget-planner.vercel.app' // your deployed frontend domain
+  "https://budget-planner-pink.vercel.app",
+  "http://localhost:3000"
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps, Postman)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // allow cookies or auth headers if needed
+  origin: allowedOrigins,
+  credentials: true,
 }));
+
 
 app.use(express.json());
 
