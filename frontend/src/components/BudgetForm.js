@@ -20,7 +20,7 @@ const BudgetForm = ({ currentMonth, existingBudget, onBudgetCreated }) => {
     setMessage('');
 
     try {
-      await axios.post('/budget', {
+      await axios.post('/api/budget', {
         month: currentMonth,
         budgetAmount: parseFloat(budgetAmount)
       });

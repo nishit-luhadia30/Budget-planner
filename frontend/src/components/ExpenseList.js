@@ -11,7 +11,7 @@ const ExpenseList = ({ budget, onExpenseDeleted }) => {
 
     setLoading(true);
     try {
-      await axios.delete(`/expense/${budget._id}/${expenseId}`);
+      await axios.delete(`/api/expense/${budget._id}/${expenseId}`);
       onExpenseDeleted();
     } catch (error) {
       alert('Error deleting expense: ' + (error.response?.data?.message || error.message));

@@ -34,7 +34,7 @@ const ExpenseForm = ({ currentMonth, onExpenseAdded }) => {
     setMessage('');
 
     try {
-      await axios.post('/expense', {
+      await axios.post('/api/expense', {
         ...formData,
         amount: parseFloat(formData.amount),
         month: currentMonth

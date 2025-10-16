@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import react, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import BudgetForm from './BudgetForm';
 import ExpenseForm from './ExpenseForm';
@@ -23,7 +23,7 @@ const Dashboard = () => {
   const fetchBudgetData = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/budget/${currentMonth}`);
+      const response = await axios.get(`/api/budget/${currentMonth}`);
       setBudgetData(response.data);
     } catch (error) {
       if (error.response?.status === 404) {
