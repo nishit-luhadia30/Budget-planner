@@ -488,3 +488,218 @@ body {
     flex-wrap: wrap;
   }
 }
+/* E
+xport Options Styles */
+.export-options {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.export-options h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.export-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-export {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-export.csv {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-export.csv:hover:not(:disabled) {
+  background-color: #229954;
+}
+
+.btn-export.pdf {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-export.pdf:hover:not(:disabled) {
+  background-color: #c0392b;
+}
+
+.btn-export:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.export-info {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 4px solid #4ECDC4;
+}
+
+.export-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Recurring Expense Styles */
+.recurring-options {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+  border: 1px solid #e1e8ed;
+}
+
+.recurring-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.recurring-checkbox input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.recurring-frequency {
+  margin-top: 10px;
+}
+
+.recurring-badge {
+  background-color: #17a2b8;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+/* Notification Styles */
+.notification-badge {
+  position: relative;
+}
+
+.notification-badge::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+}
+
+/* Enhanced Progress Bar */
+.progress-bar.warning .progress-fill {
+  background-color: #f39c12;
+}
+
+.progress-bar.danger .progress-fill {
+  background-color: #e74c3c;
+}
+
+/* Budget Alert Styles */
+.budget-alert {
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.budget-alert.warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+}
+
+.budget-alert.danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.budget-alert.info {
+  background-color: #d1ecf1;
+  border: 1px solid #bee5eb;
+  color: #0c5460;
+}
+
+/* Recurring Expense Indicator */
+.expense-row.recurring {
+  border-left: 4px solid #17a2b8;
+}
+
+.recurring-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #17a2b8;
+}
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 768px) {
+  .export-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-export {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .recurring-options {
+    padding: 10px;
+  }
+  
+  .tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .tab {
+    flex-shrink: 0;
+  }
+}
+
+/* Toast Notification Overrides */
+.Toastify__toast {
+  border-radius: 8px;
+}
+
+.Toastify__toast--success {
+  background-color: #27ae60;
+}
+
+.Toastify__toast--warning {
+  background-color: #f39c12;
+}
+
+.Toastify__toast--error {
+  background-color: #e74c3c;
+}
+
+.Toastify__toast--info {
+  background-color: #4ECDC4;
+}

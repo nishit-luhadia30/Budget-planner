@@ -56,8 +56,13 @@ const ExpenseList = ({ budget, onExpenseDeleted }) => {
         </div>
         
         {sortedExpenses.map((expense) => (
-          <div key={expense._id} className="expense-row">
-            <div className="expense-name">{expense.name}</div>
+          <div key={expense._id} className={`expense-row ${expense.isRecurring ? 'recurring' : ''}`}>
+            <div className="expense-name">
+              {expense.name}
+              {expense.isRecurring && (
+                <span className="recurring-badge">🔄 {expense.recurringFrequency}</span>
+              )}
+            </div>
             <div className="expense-category">
               <span className={`category-badge ${expense.category.toLowerCase()}`}>
                 {expense.category}

@@ -6,7 +6,7 @@ const router = express.Router();
 // POST /api/expense - Add new expense
 router.post('/', auth, async (req, res) => {
   try {
-    const { name, category, amount, date, month } = req.body;
+    const { name, category, amount, date, month, isRecurring, recurringFrequency } = req.body;
     const userId = req.user._id;
 
     // Find or create budget for the month
@@ -23,7 +23,10 @@ router.post('/', auth, async (req, res) => {
       name,
       category,
       amount: parseFloat(amount),
-      date: new Date(date)
+      date: new Date(date),
+      isRecurring: isRecurring || false,
+      recurringFrequency: recurringFrequency || null,
+      nextDueDate: isRecurring ? calculateNextDueDate(new Date(date), recurringFrequency) : null
     };
 
     budget.expenses.push(newExpense);
@@ -37,6 +40,30 @@ router.post('/', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
+
+// Helper function to calculate next due date
+function calculateNextDueDate(currentDate, frequency) {
+  const nextDate = new Date(currentDate);
+  
+  switch (frequency) {
+    case 'daily':
+      nextDate.setDate(nextDate.getDate() + 1);
+      break;
+    case 'weekly':
+      nextDate.setDate(nextDate.getDate() + 7);
+      break;
+    case 'monthly':
+      nextDate.setMonth(nextDate.getMonth() + 1);
+      break;
+    case 'yearly':
+      nextDate.setFullYear(nextDate.getFullYear() + 1);
+      break;
+    default:
+      nextDate.setMonth(nextDate.getMonth() + 1);
+  }
+  
+  return nextDate;
+}
 
 // DELETE /api/expense/:budgetId/:expenseId - Delete expense
 router.delete('/:budgetId/:expenseId', auth, async (req, res) => {

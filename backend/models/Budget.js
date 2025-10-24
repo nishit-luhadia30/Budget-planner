@@ -19,6 +19,19 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     required: true,
     default: Date.now
+  },
+  isRecurring: {
+    type: Boolean,
+    default: false
+  },
+  recurringFrequency: {
+    type: String,
+    enum: ['daily', 'weekly', 'monthly', 'yearly'],
+    required: function() { return this.isRecurring; }
+  },
+  nextDueDate: {
+    type: Date,
+    required: function() { return this.isRecurring; }
   }
 });
 
@@ -37,7 +50,16 @@ const budgetSchema = new mongoose.Schema({
     required: true,
     min: 0
   },
-  expenses: [expenseSchema]
+  expenses: [expenseSchema],
+  notifications: {
+    budgetAlert: {
+      enabled: { type: Boolean, default: true },
+      threshold: { type: Number, default: 80 } // Alert at 80% of budget
+    },
+    recurringReminder: {
+      enabled: { type: Boolean, default: true }
+    }
+  }
 }, {
   timestamps: true
 });

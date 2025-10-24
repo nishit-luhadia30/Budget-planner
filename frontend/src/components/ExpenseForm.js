@@ -6,7 +6,9 @@ const ExpenseForm = ({ currentMonth, onExpenseAdded }) => {
     name: '',
     category: 'Food',
     amount: '',
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    isRecurring: false,
+    recurringFrequency: 'monthly'
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
@@ -45,7 +47,9 @@ const ExpenseForm = ({ currentMonth, onExpenseAdded }) => {
         name: '',
         category: 'Food',
         amount: '',
-        date: new Date().toISOString().split('T')[0]
+        date: new Date().toISOString().split('T')[0],
+        isRecurring: false,
+        recurringFrequency: 'monthly'
       });
       onExpenseAdded();
     } catch (error) {
@@ -125,8 +129,41 @@ const ExpenseForm = ({ currentMonth, onExpenseAdded }) => {
           </div>
         </div>
 
+        <div className="form-group">
+          <label>
+            <input
+              type="checkbox"
+              name="isRecurring"
+              checked={formData.isRecurring}
+              onChange={(e) => setFormData({
+                ...formData,
+                isRecurring: e.target.checked
+              })}
+            />
+            Make this a recurring expense
+          </label>
+        </div>
+
+        {formData.isRecurring && (
+          <div className="form-group">
+            <label htmlFor="recurringFrequency">Frequency</label>
+            <select
+              id="recurringFrequency"
+              name="recurringFrequency"
+              value={formData.recurringFrequency}
+              onChange={handleChange}
+              required
+            >
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+        )}
+
         <button type="submit" disabled={loading} className="btn-primary">
-          {loading ? 'Adding...' : 'Add Expense'}
+          {loading ? 'Adding...' : (formData.isRecurring ? 'Add Recurring Expense' : 'Add Expense')}
         </button>
       </form>
     </div>

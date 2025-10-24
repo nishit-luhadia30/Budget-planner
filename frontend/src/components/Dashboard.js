@@ -1,9 +1,11 @@
-import react, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import BudgetForm from './BudgetForm';
 import ExpenseForm from './ExpenseForm';
 import ExpenseList from './ExpenseList';
 import BudgetSummary from './BudgetSummary';
+import ExportOptions from './ExportOptions';
+import NotificationSystem from './NotificationSystem';
 import axios from 'axios';
 
 const Dashboard = () => {
@@ -94,6 +96,12 @@ const Dashboard = () => {
           >
             Budget Settings
           </button>
+          <button 
+            className={`tab ${activeTab === 'export' ? 'active' : ''}`}
+            onClick={() => setActiveTab('export')}
+          >
+            Export & Reports
+          </button>
         </div>
 
         <div className="tab-content">
@@ -150,8 +158,22 @@ const Dashboard = () => {
               />
             </div>
           )}
+
+          {activeTab === 'export' && (
+            <div className="export-tab">
+              <ExportOptions 
+                currentMonth={currentMonth}
+                budgetData={budgetData}
+              />
+            </div>
+          )}
         </div>
       </div>
+
+      <NotificationSystem 
+        budgetData={budgetData}
+        currentMonth={currentMonth}
+      />
     </div>
   );
 };

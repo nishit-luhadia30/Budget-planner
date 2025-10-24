@@ -16,8 +16,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Set up axios defaults
-  const API_URL = process.env.REACT_APP_API_URL?.trim() || 'http://localhost:5000';
-  console.log("Connecting to backend:", API_URL);
+  const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/';
   axios.defaults.baseURL = API_URL;
 
   useEffect(() => {
@@ -33,16 +32,16 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/login', { email, password });
       const { token, user } = response.data;
-      
+
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
-      
+
       return { success: true };
     } catch (error) {
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Login failed' 
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Login failed'
       };
     }
   };
@@ -53,18 +52,18 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post('/api/auth/signup', { username, email, password });
 
       const { token, user } = response.data;
-      
+
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(user);
-      
+
       return { success: true };
-    } 
+    }
     catch (error) {
       console.error("Signup error:", error.response?.data);
-      return { 
-        success: false, 
-        message: error.response?.data?.message || 'Signup failed' 
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Signup failed'
       };
     }
   };

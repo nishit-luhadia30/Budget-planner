@@ -6,6 +6,8 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const budgetRoutes = require('./routes/budget');
 const expenseRoutes = require('./routes/expense');
+const exportRoutes = require('./routes/export');
+const recurringExpenseService = require('./services/recurringExpenses');
 
 const app = express();
 
@@ -28,6 +30,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/budget', budgetRoutes);
 app.use('/api/expense', expenseRoutes);
+app.use('/api/export', exportRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/budget-tracker')
